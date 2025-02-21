@@ -3,7 +3,7 @@
   ansible.posix.sysctl:
     name: "{{ item }}"
     value: 1
-    state: present
+    sysctl_set: true
     reload: yes
   become: true
   become_method: sudo

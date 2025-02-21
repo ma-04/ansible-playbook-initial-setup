@@ -22,6 +22,7 @@
 **Required for most roles**
 ```bash
 ansible-galaxy install -r requirements.yml -p roles/galaxy/ --force
+ansible-galaxy collection install -r requirements.yml
 ```
 
 **Variables for For All**
