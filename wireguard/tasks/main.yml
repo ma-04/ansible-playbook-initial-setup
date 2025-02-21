@@ -1,5 +1,6 @@
+
 - name: enable ip_forwardning
-  ansible.builtin.sysctl:
+  ansible.posix.sysctl:
     name: "{{ item }}"
     value: 1
     state: present
