@@ -8,4 +8,17 @@
     create_home: true
   become: true
 
+- name: Add user to sudoers
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    line: "{{ ansible_user_id }} ALL=(ALL) NOPASSWD:ALL"
+    validate: "visudo -cf %s"
+  become: true
+
+- name: Add ssh public key for the user
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user_id }}"
+    state: present
+    key: "{{ lookup('url', ssh_key_link) }}"
+
 # todo: create a variable for create new user enable

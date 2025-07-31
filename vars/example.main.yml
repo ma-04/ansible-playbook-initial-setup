@@ -48,6 +48,7 @@ ssh_port: 22 # change this to your desired port
 ssh_password_auth: "yes" # defaults to "no", change this to yes if you want to enable password authentication
 extra_ports: "80, 443, 9002, 9003" # defaults to 80,443
 # TCP ports to be allowed in ufw and nftables
+ssh_key_link: "https://raw.githubusercontent.com/random/ansible2/main/ssh_key.pub" # link to your ssh public key, this will be added to the user
 
 nftables_enabled: false # (Suggested) set to false if you don't want to use nftables, default is false
 ufw_enaled: false # set to false if you don't want to use ufw, default is false
