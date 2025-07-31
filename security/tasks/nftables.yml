@@ -13,14 +13,24 @@
     enabled: false
   become: true 
   ignore_errors: true
-  
+
+- name: create custom nftables folder
+  ansible.builtin.file: 
+    state: directory
+    dest: /etc/nftables.d
+  become: true
+
+# - name: copy custom nftables rules for each hosts
+#   ansible.builtin.template:
+#     src: files/{{ inventory_hostname }}_custom_nftables.nft
+#     dest: /etc/nftables.d/{{ inventory_hostname }}_custom_nftables.nft
+#   when: 
+
 - name: ensure nftables is installed
   ansible.builtin.apt:
-    name:
-      - nftables
-    state: present
+    name: nftables
+    state: latest
     autoclean: true
-    force_apt_get: true
     install_recommends: true
     update_cache: true
   become: true
@@ -32,7 +42,9 @@
     owner: root
     group: root
     mode: '0755'
+    backup: true
   become: true
+  
   notify:
     - restart nftables
     - restart docker
