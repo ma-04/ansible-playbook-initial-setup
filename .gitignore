@@ -10,6 +10,7 @@ test/
 prometheus/files/*.crt
 prometheus/files/*.key
 rclone/files/rclone.conf
+security/files/*.nft
 lxc/files/.env-lxc-backups
 vars/bdix.main.yml
 bdix.yml

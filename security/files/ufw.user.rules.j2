@@ -17,8 +17,8 @@
 :ufw-user-limit-accept - [0:0]
 ### RULES ###
 
-### tuple ### allow tcp 22 0.0.0.0/0 any 0.0.0.0/0 in
--A ufw-user-input -p tcp --dport {{ ssh_ports }} -j ACCEPT
+### tuple ### allow tcp {{ ssh_port | default(22) }} 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport {{ ssh_port | default(22) }} -j ACCEPT
 
 ### tuple ### allow udp {{ wireguard_port }} 0.0.0.0/0 any 0.0.0.0/0 in
 -A ufw-user-input -p udp --dport {{ wireguard_port }} -j ACCEPT

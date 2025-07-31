@@ -1,7 +1,7 @@
 [sshd service]
 enabled = true
-port = {{ ssh_port }}
-# ssh port changed to {{ ssh_port }}
+port = {{ ssh_port | default(22) }}
+# ssh port changed to {{ ssh_port | default(22) }}
 filter = sshd
 logpath = /var/log/auth.log
 maxretry = 5
