@@ -7,3 +7,5 @@
     shell: /bin/bash
     create_home: true
   become: true
+
+# todo: create a variable for create new user enable
