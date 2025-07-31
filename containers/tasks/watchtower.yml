@@ -1,7 +1,12 @@
+- name: remove old watchtower
+  community.docker.docker_container:
+    name: watchtower
+    state: absent
+
 - name: setup watchtower docker container
   community.docker.docker_container:
     name: watchtower
-    image: containrrr/watchtower
+    image: beatkind/watchtower
     pull: true
     state: started
     restart_policy: unless-stopped
