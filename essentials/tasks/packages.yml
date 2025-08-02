@@ -27,7 +27,9 @@
       - apt-transport-https
       - ca-certificates
       - curl
+      - pwgen
       - resolvconf
+
 
 - name: symlink vim
   become: true
