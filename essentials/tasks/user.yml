@@ -1,24 +1,22 @@
 # Create the user and set up their environment
 - name: Create user if not exists
   ansible.builtin.user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ create_user }}"
     state: present
-    home: "{{ ansible_user_home }}"
-    shell: /bin/bash
     create_home: true
   become: true
 
 - name: Add user to sudoers
   ansible.builtin.lineinfile:
     path: /etc/sudoers
-    line: "{{ ansible_user_id }} ALL=(ALL) NOPASSWD:ALL"
+    line: "{{ create_user }} ALL=(ALL) NOPASSWD:ALL"
     validate: "visudo -cf %s"
   become: true
 
 - name: Add ssh public key for the user
   ansible.posix.authorized_key:
-    user: "{{ ansible_user_id }}"
+    user: "{{ create_user }}"
     state: present
-    key: "{{ lookup('url', ssh_key_link) }}"
+    key: "{{ ssh_key_link }}"
 
 # todo: create a variable for create new user enable

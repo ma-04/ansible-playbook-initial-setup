@@ -23,10 +23,7 @@
 - include_tasks: packages.yml
 
 - include_tasks: user.yml
-  when: ansible_user_id != 'root'
-  vars:
-    ansible_user_id: "{{ ansible_user_id }}"
-    ansible_user_home: "{{ ansible_user_home }}"
+  when: create_user_enable == true
 
 - name: add .bash_aliases for all users
   become: true
