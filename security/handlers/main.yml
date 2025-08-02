@@ -31,3 +31,4 @@
     name: docker.service
     state: restarted
   become: true
+  ignore_errors: true
