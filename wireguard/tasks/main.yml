@@ -13,17 +13,24 @@
     - net.ipv6.conf.all.forwarding
     - net.ipv4.ip_nonlocal_bind
     - net.ipv6.ip_nonlocal_bind
-  
+
+- name: add dns to resolv.conf
+  ansible.builtin.lineinfile:
+    path: /etc/resolv.conf
+    line: "nameserver {{ resolvconf_dns_server }}"
+    state: present
+  become: true
+  when: resolvconf_dns_server is defined
+    
 - name: install wireguard
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name:
+      - wireguard
+      - wireguard-tools
     install_recommends: yes
     state: present
     autoclean: true
   become: true
-  loop:
-    - wireguard
-    - wireguard-tools
 
 - name: ensure wireguard kernel module is loaded
   ansible.builtin.modprobe:

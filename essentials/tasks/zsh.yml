@@ -1,13 +1,12 @@
 - name: install zsh and zsh suggestion
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name:
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
     state: present
     update_cache: yes
   become: true
-  loop:
-    - zsh
-    - zsh-autosuggestions
-    - zsh-syntax-highlighting
 
 - name: install oh-my-zsh
   ansible.builtin.git:

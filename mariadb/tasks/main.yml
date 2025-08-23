@@ -7,12 +7,11 @@
   
 - name: install mariadb
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name:
+      - mariadb-server
+      - mariadb-client
+      - python3-pymysql
     state: present
-  loop:
-    - mariadb-server
-    - mariadb-client
-    - python3-pymysql
   become: true
   become_method: sudo
 
