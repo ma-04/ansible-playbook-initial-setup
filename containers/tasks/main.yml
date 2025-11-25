@@ -1,5 +1,7 @@
+- name: Refresh the inventory
+  meta: refresh_inventory
+
 # - include_tasks: wg_docker_integrations.yml
-#   when: wg_docker_integrations == true
 
 - name: get wireguard ip for host from wg-server.conf file
   ansible.builtin.shell: (cat /etc/wireguard/{{ wg_iface }}.conf | grep Address | awk '{print $3}' | awk -F/ '{print $1}')

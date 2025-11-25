@@ -5,6 +5,13 @@
   become: true
   become_method: sudo
 
+- name: restart ssh
+  ansible.builtin.systemd_service:
+    name: ssh.service
+    state: restarted
+    daemon_reload: true
+  become: true
+
 - name: restart nftables
   ansible.builtin.service:
     name: nftables.service

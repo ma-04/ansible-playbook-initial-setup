@@ -5,3 +5,6 @@
 - include_tasks: fail2ban.yml
 - include_tasks: ufw.yml
   when: "ufw_enaled == true"
+
+- name: Refresh the inventory
+  meta: refresh_inventory

@@ -8,9 +8,16 @@
     backup: yes
     validate: /usr/sbin/sshd -t -f %s
   become: true
+  notify:
+    - restart ssh
 
-- name: restart ssh
-  service:
-    name: ssh
-    state: restarted
-  become: true
+
+# - name: Set SSH port for each host in inventory
+#   ini_file:
+#     path: hosts
+#     section: "{{ inventory_hostname }}"
+#     option: ansible_port
+#     value: "{{ ssh_port | default(22) }}"
+#   delegate_to: localhost
+#   run_once: false
+#   when: inventory_hostname != 'localhost' AND ssh_port is defined
