@@ -9,6 +9,7 @@
   roles:
       - essentials
       - security
+      - wireguard
       - when: playbook_docker_installation_enabled | bool
         role: galaxy/docker
         become: true
@@ -17,9 +18,8 @@
           - setup-all
           - install-docker
           - install-all
-      - wireguard
       - containers
-      #- rclone
+     # - rclone
       # # - certbot
       # - mariadb # only run on db server
       #- prometheus
