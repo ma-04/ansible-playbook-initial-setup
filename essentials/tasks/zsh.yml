@@ -18,7 +18,7 @@
   become_user: "{{ item }}"
   loop:
     - root
-    - "{{ ansible_user_id }}"
+    - "{{ create_user if create_user_enable | bool else ansible_user_id }}"
 
 - name: copy zsh custom config
   ansible.builtin.template:
@@ -31,7 +31,7 @@
   become_user: "{{ item }}"
   loop:
     - root
-    - "{{ ansible_user_id }}"
+    - "{{ create_user if create_user_enable | bool else ansible_user_id }}"
 
 - name: change users shell to zsh
   ansible.builtin.user:
@@ -40,4 +40,4 @@
   become: true
   loop:
     - root
-    - '{{ ansible_user_id }}'
+    - '{{ create_user if create_user_enable | bool else ansible_user_id }}'
