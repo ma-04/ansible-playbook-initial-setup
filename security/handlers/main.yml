@@ -12,12 +12,13 @@
     daemon_reload: true
   become: true
 
-- name: restart nftables
-  ansible.builtin.service:
+# reload, not restart: the unit's ExecStop runs `nft flush ruleset`, which would
+# wipe Docker/fail2ban tables. reloaded also starts the service if it is stopped.
+- name: reload nftables
+  ansible.builtin.systemd_service:
     name: nftables.service
-    state: restarted
+    state: reloaded
   become: true
-  become_method: sudo
 
 - name: restart fail2ban
   ansible.builtin.service:

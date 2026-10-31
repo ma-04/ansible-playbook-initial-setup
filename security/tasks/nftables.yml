@@ -20,11 +20,22 @@
     dest: /etc/nftables.d
   become: true
 
-# - name: copy custom nftables rules for each hosts
-#   ansible.builtin.template:
-#     src: files/{{ inventory_hostname }}_custom_nftables.nft
-#     dest: /etc/nftables.d/{{ inventory_hostname }}_custom_nftables.nft
-#   when: 
+# Custom rules are picked up from the role's files dir:
+#   files/nftables.d/all/*.nft                     -> every host
+#   files/nftables.d/hosts/<inventory_hostname>/*.nft  -> that host only (overrides same-named "all" file, gitignored)
+# No matching (or only empty) files means nothing is pushed.
+- name: copy custom nftables rules
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "/etc/nftables.d/{{ item | basename }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ query('ansible.builtin.fileglob', 'nftables.d/all/*.nft')
+          + query('ansible.builtin.fileglob', 'nftables.d/hosts/' ~ inventory_hostname ~ '/*.nft') }}"
+  when: lookup('ansible.builtin.file', item) | trim | length > 0
+  become: true
+  notify: reload nftables
 
 - name: ensure nftables is installed
   ansible.builtin.apt:
@@ -41,9 +52,15 @@
     dest: /etc/nftables.conf
     owner: root
     group: root
-    mode: '0755'
+    mode: '0644'
     backup: true
+    validate: nft -c -f %s
   become: true
-  notify:
-    - restart nftables
-    - restart docker
+  notify: reload nftables
+
+# The template validate only runs when nftables.conf itself changes; this also
+# catches a broken custom file before the reload handler applies it.
+- name: check full nftables ruleset
+  ansible.builtin.command: nft -c -f /etc/nftables.conf
+  changed_when: false
+  become: true
